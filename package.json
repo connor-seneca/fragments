@@ -13,5 +13,8 @@
   },
   "keywords": [],
   "author": "Connor Squires",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "prettier": "3.0.3"
+  }
 }
