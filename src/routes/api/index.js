@@ -2,6 +2,9 @@
  * The main entry-point for the v1 version of the fragments API.
  */
 const express = require('express');
+const logger = require('../../logger');
+
+logger.info('Entered entry-point for v1 fragments API');
 
 // Create a router on which to mount our API endpoints
 const router = express.Router();
