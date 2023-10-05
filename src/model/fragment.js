@@ -27,13 +27,7 @@ class Fragment {
       throw new Error('ownerId and type are required');
     } else if (size < 0 || typeof size != 'number') {
       throw new Error('size must be equal to or greater than 0');
-    }
-    if (Fragment.isSupportedType(type)) {
-      const parsedType = contentType.parse(type);
-      parsedType.parameters.charset
-        ? (this.type = String(parsedType.type + '; charset=' + parsedType.parameters.charset))
-        : (this.type = parsedType.type);
-    } else {
+    } else if (!Fragment.isSupportedType(type)) {
       throw new Error('unsupported fragment type');
     }
     this.id = id;
@@ -41,6 +35,10 @@ class Fragment {
     this.created = created;
     this.updated = updated;
     this.size = size;
+    const parsedType = contentType.parse(type);
+    parsedType.parameters.charset
+      ? (this.type = String(parsedType.type + '; charset=' + parsedType.parameters.charset))
+      : (this.type = parsedType.type);
   }
 
   /**
