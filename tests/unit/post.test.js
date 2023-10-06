@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../../src/app');
 const logger = require('../../src/logger');
-//const { Hash } = require('crypto');
+const hash = require('../../src/hash');
 
 describe('POST /fragments', () => {
   test('authenticated users can post a text/plain fragment', async () => {
@@ -14,7 +14,7 @@ describe('POST /fragments', () => {
     logger.debug(res.body);
     expect(res.statusCode).toBe(201);
     expect(res.body.status).toBe('ok');
-    expect(res.body.fragment.ownerId).toEqual('user1@email.com');
+    expect(res.body.fragment.ownerId).toEqual(hash('user1@email.com'));
     expect(res.body.fragment.size).toEqual(4);
     expect(res.body.fragment.id).toBeDefined();
     expect(res.body.fragment.created).toBeDefined();
