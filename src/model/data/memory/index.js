@@ -25,14 +25,14 @@ function writeFragmentData(ownerId, id, buffer) {
 
 // Read a fragment's data from memory db. Returns a Promise
 function readFragmentData(ownerId, id) {
-  logger.info(ownerId, id);
+  logger.info(`inside readFragData owner: ${ownerId} id:${id}`);
   return data.get(ownerId, id);
 }
 
 // Get a list of fragment ids/objects for the given user from memory db. Returns a Promise
 async function listFragments(ownerId, expand = false) {
   const fragments = await metadata.query(ownerId);
-  logger.info(ownerId, fragments);
+  logger.info(`inside the listFragments method owner:${ownerId} fragments:${fragments}`);
   // If we don't get anything back, or are supposed to give expanded fragments, return
   if (expand || !fragments) {
     return fragments;

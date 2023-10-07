@@ -62,6 +62,7 @@ class Fragment {
    */
   static async byId(ownerId, id) {
     const fragment = await readFragment(ownerId, id);
+    logger.error(`inside byId class method. ${fragment}`);
     if (fragment) {
       return Promise.resolve(fragment);
     } else {
