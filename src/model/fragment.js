@@ -51,7 +51,7 @@ class Fragment {
    */
   static async byUser(ownerId, expand = false) {
     const fragments = await listFragments(ownerId, expand);
-    return Promise.resolve(fragments);
+    return fragments;
   }
 
   /**
@@ -64,9 +64,9 @@ class Fragment {
     const fragment = await readFragment(ownerId, id);
     logger.error(`inside byId class method. ${fragment}`);
     if (fragment) {
-      return Promise.resolve(fragment);
+      return fragment;
     } else {
-      return Promise.reject(new Error('fragment does not exist'));
+      throw new Error('fragment does not exist');
     }
   }
 
@@ -77,8 +77,7 @@ class Fragment {
    * @returns {Promise<void>}
    */
   static delete(ownerId, id) {
-    deleteFragment(ownerId, id);
-    return Promise.resolve();
+    return deleteFragment(ownerId, id);
   }
 
   /**
@@ -86,9 +85,8 @@ class Fragment {
    * @returns {Promise<void>}
    */
   save() {
-    writeFragment(this);
     this.updated = new Date().toISOString();
-    return Promise.resolve();
+    return writeFragment(this);
   }
 
   /**
@@ -96,8 +94,7 @@ class Fragment {
    * @returns {Promise<Buffer>}
    */
   getData() {
-    this.data = readFragmentData(this.ownerId, this.id);
-    return Promise.resolve(this.data);
+    return readFragmentData(this.ownerId, this.id);
   }
 
   /**
@@ -107,13 +104,12 @@ class Fragment {
    */
   async setData(data) {
     if (!Buffer.isBuffer(data)) {
-      return Promise.reject(new Error('data is not a buffer'));
+      throw new Error('data is not a buffer');
     }
     await writeFragmentData(this.ownerId, this.id, data);
     this.updated = new Date().toISOString();
     this.size = data.length;
     logger.debug(`size updated to ${this.size}`);
-    return Promise.resolve();
   }
 
   /**

@@ -13,7 +13,7 @@ function writeFragment(fragment) {
 
 // Read a fragment's metadata from memory db. Returns a Promise
 function readFragment(ownerId, id) {
-  logger.info(ownerId, id);
+  logger.info(`inside the readFragment method owner: ${ownerId} - id:${id}`);
   return metadata.get(ownerId, id);
 }
 

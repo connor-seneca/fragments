@@ -12,14 +12,12 @@ module.exports = async (req, res) => {
       ownerId: req.user,
       type: 'text/plain',
     });
+    await fragment.save();
     await fragment.setData(req.body);
     logger.info(
       `fragment successfully created for owner:${fragment.ownerId} - type:${fragment.type} - size:${fragment.size}`
     );
-    res.setHeader(
-      'Location',
-      `${process.env.API_URL || res.headers.host}/v1/fragments/${fragment.id}`
-    );
+    res.setHeader('Location', `${process.env.API_URL}/v1/fragments/${fragment.id}`);
     res.status(201).json(createSuccessResponse({ fragment }));
   }
 };
