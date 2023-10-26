@@ -9,4 +9,13 @@ npm run debug - used as the default Debug method for the project in VSCode.<br>
 npm run lint - checks for any errors present that need to be addressed.<br>
 <br>
 **Connect into aws ec2 instance**<br>
+ssh located in /home/$USER<br>
 ssh -i {ssh-key-path} ec2-user@{aws-dns-server}<br>
+
+**Docker CMDs**<br>
+#build a docker image to be ran<br>
+docker build -t fragments:latest .<br>
+#creater docker container -it allows interaction in the cmd line (CTRL-C to close container)<br>
+docker run --rm --name fragments --env-file .env -it fragments:latest<br>
+#creates a detached docker instance<br>
+docker run --rm --name fragments --env-file env.jest -e LOG_LEVEL=debug -p 8080:8080 -d fragments:latest
