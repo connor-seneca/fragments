@@ -9,13 +9,12 @@ module.exports = async (req, res) => {
   if (req.query.expand == 1) {
     const fragments = await Fragment.byUser(req.user, true);
     logger.info('inside the expanded get');
-    //logger.debug(`fragments returned byUser in get all: ${{ fragments }}`);
-    logger.error(Array.isArray(fragments));
+    logger.error('error in get.js expand=true: ', Array.isArray(fragments));
     res.status(200).json(createSuccessResponse({ fragments }));
   } else {
     const fragments = await Fragment.byUser(req.user);
     logger.info(`fragments returned byUser in get all: ${{ fragments }}`);
-    logger.error(Array.isArray(fragments));
+    logger.error('error in get.js expand=false: ', Array.isArray(fragments));
     res.status(200).json(createSuccessResponse({ fragments }));
   }
 };

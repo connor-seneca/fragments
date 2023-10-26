@@ -2,8 +2,8 @@
 
 FROM node:18.17.1
 
-LABEL maintainer="Connor Squires <cwsquires@mysenca.ca>"
-LABEL description="Fragments node.js microservice"
+LABEL maintainer="Connor Squires <cwsquires@mysenca.ca>" \
+      description="Fragments node.js microservice"
 
 # We default to use port 8080 in our service
 ENV PORT=8080
@@ -26,6 +26,8 @@ COPY package*.json /app/
 
 # Install node dependencies defined in package-lock.json
 RUN npm install
+#may change this to npm ci --production / This installs only dependencies and their exact versions from
+#the package-lock file and does not install any dev dependencies (ie: jest)
 
 # Copy src to /app/src/
 COPY ./src ./src
