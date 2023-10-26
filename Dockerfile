@@ -1,33 +1,27 @@
-# First Docker file
-
-FROM node:18.17.1
+#Stage 0: install base dependencies
+FROM node:18-alpine3.17@sha256:b45e71e98bd0eecd4b694c7fb0281e08e06a384de26a986d241d348926692318 as dependencies
 
 LABEL maintainer="Connor Squires <cwsquires@mysenca.ca>" \
       description="Fragments node.js microservice"
 
-# We default to use port 8080 in our service
-ENV PORT=8080
+ENV NODE_ENV=production \
+    NPM_CONFIG_LOGLEVEL=warn \
+    NPM_CONFIG_COLOR=false
 
-# Reduce npm spam when installing within Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#loglevel
-ENV NPM_CONFIG_LOGLEVEL=warn
-
-# Disable colour when run inside Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#color
-ENV NPM_CONFIG_COLOR=false
-
-# Use /app as our working directory
 WORKDIR /app
 
-# Option 1: explicit path - Copy the package.json and package-lock.json
-# files into /app. NOTE: the trailing `/` on `/app/`, which tells Docker
-# that `app` is a directory and not a file.
-COPY package*.json /app/
+COPY package*.json ./
 
-# Install node dependencies defined in package-lock.json
-RUN npm install
-#may change this to npm ci --production / This installs only dependencies and their exact versions from
-#the package-lock file and does not install any dev dependencies (ie: jest)
+RUN npm ci --production
+
+#######################################################################
+
+#Stage 1: Bring in the source code and deploy
+FROM node:18-alpine3.17@sha256:b45e71e98bd0eecd4b694c7fb0281e08e06a384de26a986d241d348926692318 as deploy
+
+WORKDIR /app
+
+COPY --from=dependencies /app /app
 
 # Copy src to /app/src/
 COPY ./src ./src
