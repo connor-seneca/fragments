@@ -14,7 +14,10 @@ describe('GET /fragments/:id', () => {
 
     logger.info(`fragment id: ${id}`);
     const gRes = await request(app).get(`/v1/fragments/${id}`).auth('user1@email.com', 'password1');
+    console.log(JSON.stringify(gRes, null, 2));
     expect(gRes.statusCode).toBe(200);
-    expect(gRes.body.status).toBe('ok');
+    expect(gRes.headers['content-type']).toBe(pRes.body.fragment.type);
+    expect(gRes.headers['content-length']).toBe('4');
+    expect(gRes.text).toBe('data');
   });
 });

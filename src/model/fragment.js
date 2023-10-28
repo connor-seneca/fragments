@@ -62,7 +62,7 @@ class Fragment {
    */
   static async byId(ownerId, id) {
     const fragment = await readFragment(ownerId, id);
-    logger.error(`inside byId class method. ${fragment}`);
+    logger.debug(`inside byId class method. ${JSON.stringify(fragment, null, 2)}`);
     if (fragment) {
       return fragment;
     } else {
@@ -109,6 +109,7 @@ class Fragment {
     await writeFragmentData(this.ownerId, this.id, data);
     this.updated = new Date().toISOString();
     this.size = data.length;
+    this.save();
     logger.debug(`size updated to ${this.size}`);
   }
 
