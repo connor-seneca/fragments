@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
     const data = await fragment.getData();
     logger.debug('data inside getById: ', JSON.stringify(data, null, 2));
 
-    //setting response headers
+    //setting response header
     res.setHeader('Content-Type', fragment.type);
 
     logger.debug('this is the fragment type: ', fragment.type);
