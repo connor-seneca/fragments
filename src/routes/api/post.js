@@ -3,7 +3,9 @@ const { Fragment } = require('../../model/fragment');
 const logger = require('../../logger');
 
 module.exports = async (req, res) => {
-  logger.info(`Inside the post /fragments route with ${req.user}`);
+  logger.info(
+    `Inside the post /fragments route with ${req.user} + This is the Content-Type:${req.headers['content-type']}`
+  );
 
   if (!Buffer.isBuffer(req.body)) {
     logger.debug(`not valid content type`);
@@ -11,10 +13,15 @@ module.exports = async (req, res) => {
     return;
   }
 
+  logger.debug(`Content-Type: ${req.headers['content-type']}`);
+
   const fragment = new Fragment({
     ownerId: req.user,
-    type: 'text/plain',
+    type: req.headers['content-type'],
+    size: req.body.length,
   });
+
+  logger.debug('This is the fragment', { fragment });
 
   try {
     await fragment.save();
@@ -26,9 +33,10 @@ module.exports = async (req, res) => {
   logger.info(
     `fragment successfully created for owner:${fragment.ownerId} - type:${fragment.type} - size:${fragment.size}`
   );
+
   res.setHeader(
     'Location',
-    `http://${process.env.API_URL || req.headers.host}/v1/fragments/${fragment.id}`
+    `https://${process.env.API_URL || req.headers.host}/v1/fragments/${fragment.id}`
   );
 
   res.status(201).json(createSuccessResponse({ fragment }));

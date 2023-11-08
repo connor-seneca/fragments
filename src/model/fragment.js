@@ -136,7 +136,15 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    return ['text/plain'];
+    switch (this.type.split(';')[0].trim()) {
+      case 'text/plain':
+        return ['text/plain'];
+      case 'text/markdown':
+        return ['text/markdown', 'text/html', 'text/plain'];
+      case 'text/html':
+        return ['text/html', 'text/plain'];
+    }
+    return [];
   }
 
   /**
@@ -145,11 +153,9 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    if (value.startsWith('text/plain')) {
-      return true;
-    } else {
-      return false;
-    }
+    const supportedTypes = [`text/plain`, `text/markdown`, `text/html`, `application/json`];
+
+    return supportedTypes.some((type) => value.startsWith(type));
   }
 }
 
