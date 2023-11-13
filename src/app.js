@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const passport = require('passport');
 const authenticate = require('./auth');
-const createErrorResponse = require('./response');
+const { createErrorResponse } = require('./response');
 
 // author and version from our package.json file
 //const { author, version } = require('../package.json');
