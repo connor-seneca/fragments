@@ -20,7 +20,7 @@ describe('POST /fragments', () => {
     expect(res.body.fragment.updated).toBeDefined();
     expect(res.body.fragment.type).toBe('text/plain');
     expect(res.headers['location']).toBe(
-      `https://localhost:8080/v1/fragments/${res.body.fragment.id}`
+      `http://localhost:8080/v1/fragments/${res.body.fragment.id}`
     );
   });
 
@@ -41,7 +41,7 @@ describe('POST /fragments', () => {
     expect(res.body.fragment.updated).toBeDefined();
     expect(res.body.fragment.type).toBe('text/markdown');
     expect(res.headers['location']).toBe(
-      `https://localhost:8080/v1/fragments/${res.body.fragment.id}`
+      `http://localhost:8080/v1/fragments/${res.body.fragment.id}`
     );
   });
 
@@ -62,7 +62,7 @@ describe('POST /fragments', () => {
     expect(res.body.fragment.updated).toBeDefined();
     expect(res.body.fragment.type).toBe('text/html');
     expect(res.headers['location']).toBe(
-      `https://localhost:8080/v1/fragments/${res.body.fragment.id}`
+      `http://localhost:8080/v1/fragments/${res.body.fragment.id}`
     );
   });
 
@@ -85,7 +85,7 @@ describe('POST /fragments', () => {
     expect(res.body.fragment.updated).toBeDefined();
     expect(res.body.fragment.type).toBe('application/json');
     expect(res.headers['location']).toBe(
-      `https://localhost:8080/v1/fragments/${res.body.fragment.id}`
+      `http://localhost:8080/v1/fragments/${res.body.fragment.id}`
     );
   });
 
