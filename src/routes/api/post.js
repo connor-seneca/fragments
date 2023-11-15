@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
 
   res.setHeader(
     'Location',
-    `https://${process.env.API_URL || req.headers.host}/v1/fragments/${fragment.id}`
+    `http://${process.env.API_URL || req.headers.host}/v1/fragments/${fragment.id}`
   );
 
   res.status(201).json(createSuccessResponse({ fragment }));
