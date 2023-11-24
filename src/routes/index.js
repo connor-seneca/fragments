@@ -4,6 +4,7 @@ const { version, author } = require('../../package.json');
 // Our authentication middleware
 const { authenticate } = require('../auth');
 const { createSuccessResponse } = require('../response');
+const { hostname } = require('os');
 // Create a router that we can use to mount our API
 const router = express.Router();
 
@@ -27,6 +28,7 @@ router.get('/', (req, res) => {
       // Use your own GitHub URL for this!
       githubUrl: 'https://github.com/connor-seneca/fragments',
       version,
+      hostname: hostname(),
     })
   );
 });
