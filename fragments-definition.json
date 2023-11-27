@@ -27,14 +27,6 @@
       "cpu": 256,
       "environment": [
         {
-          "name": "AWS_COGNITO_CLIENT_ID",
-          "value": "TODO: ADD SAFE VERSION"
-        },
-        {
-          "name": "AWS_COGNITO_POOL_ID",
-          "value": "TODO: ADD SAFE VERSION"
-        },
-        {
           "name": "AWS_REGION",
           "value": "us-east-1"
         },
