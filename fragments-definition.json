@@ -33,6 +33,10 @@
         {
           "name": "PORT",
           "value": "8080"
+        },
+        {
+          "name": "AWS_S3_BUCKET_NAME",
+          "value": "cwsquires-fragments"
         }
       ],
       "resourceRequirements": null,
@@ -68,7 +72,7 @@
   ],
   "placementConstraints": [],
   "memory": "512",
-  "taskRoleArn": null,
+  "taskRoleArn": "arn:aws:iam::965611082701:role/LabRole",
   "compatibilities": ["EC2", "FARGATE"],
   "taskDefinitionArn": "arn:aws:ecs:us-east-1:965611082701:task-definition/fragments-task:2",
   "family": "fragments-task",
