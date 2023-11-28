@@ -16,6 +16,8 @@ module.exports = async (req, res) => {
 
     res.status(200).json(createSuccessResponse());
   } catch (err) {
-    res.status(400).json(createErrorResponse(err, 'getting fragment by id failed in getById.js'));
+    res
+      .status(404)
+      .json(createErrorResponse(err, 'deleting fragment by id failed in deleteById.js'));
   }
 };
