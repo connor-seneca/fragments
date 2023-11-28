@@ -65,6 +65,25 @@ jobs:
       - name: Install node dependencies and run Tests
         # https://docs.npmjs.com/cli/v8/commands/npm-install-ci-test
         run: npm install-ci-test
+
+  integration-tests:
+    name: Integration Tets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Install node dependencies
+        run: npm ci
+
+      - name: Run Integration Tests
+        run: npm run test:integration
+
   docker-hub:
     name: Build and Push to Docker Hub
     needs: [lint, dockerfile-lint, unit-tests]
