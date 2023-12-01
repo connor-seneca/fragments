@@ -62,9 +62,10 @@ class Fragment {
    */
   static async byId(ownerId, id) {
     const fragment = await readFragment(ownerId, id);
+    const newFragment = new Fragment(fragment);
     logger.debug(`inside byId class method. ${JSON.stringify(fragment, null, 2)}`);
-    if (fragment) {
-      return fragment;
+    if (newFragment) {
+      return newFragment;
     } else {
       throw new Error('fragment does not exist');
     }
