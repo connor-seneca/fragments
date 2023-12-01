@@ -66,27 +66,36 @@ jobs:
         # https://docs.npmjs.com/cli/v8/commands/npm-install-ci-test
         run: npm install-ci-test
 
-  # integration-tests:
-  #   name: Integration Tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out code
-  #       uses: actions/checkout@v3
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
 
-  #     - name: Setup node
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '18'
-  #         cache: 'npm'
-  #     - name: Install node dependencies
-  #       run: npm ci
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-  #     - name: Run Integration Tests
-  #       run: npm run test:integration
+      - name: Install node dependencies
+        run: npm install
+
+      - name: Build Containers
+        run: docker compose up -d
+
+      - name: Setup Local AWS Resources
+        # NOTE: this file needs to be made executable *before* you check into git:
+        # $ chmod +x ./scripts/local-aws-setup.sh
+        run: ./scripts/local-aws-setup.sh
+
+      - name: Run Integration Tests
+        run: npm run test:integration
 
   docker-hub:
     name: Build and Push to Docker Hub
-    needs: [lint, dockerfile-lint, unit-tests]
+    needs: [lint, dockerfile-lint, unit-tests, integration-tests]
     runs-on: ubuntu-latest
     steps:
       - name: set up Docker Buildx
