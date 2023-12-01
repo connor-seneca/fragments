@@ -42,6 +42,7 @@ async function readFragment(ownerId, id) {
   try {
     // Wait for the data to come back from AWS
     const data = await ddbDocClient.send(command);
+    logger.debug(`${data?.Item} : Data inside the readFragment method for aws/index`);
     // We may or may not get back any data (e.g., no item found for the given key).
     // If we get back an item (fragment), we'll return it.  Otherwise we'll return `undefined`.
     return data?.Item;

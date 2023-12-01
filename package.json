@@ -9,6 +9,7 @@
     "test": "jest -c jest.config.js --runInBand --",
     "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\"",
     "test:lab10": "hurl --test --glob \"tests/integration/lab-10-dynamodb.hurl\"",
+    "test:i": "hurl --test --glob \"tests/integration/lab-9-s3.hurl\"",
     "coverage": "jest -c jest.config.js --runInBand --coverage",
     "lint": "eslint --config .eslintrc.js \"./src/**/*.js\" \"tests/**/*.js\"",
     "start": "node src/index.js",
