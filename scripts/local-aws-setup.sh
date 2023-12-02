@@ -49,5 +49,3 @@ dynamodb create-table \
 # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/dynamodb/wait/table-exists.html
 aws --endpoint-url=http://localhost:8000 dynamodb wait table-exists --table-name fragments
 
-# Stop git bash from exiting automatically after running script
-read -p "Press any key to continue" x
