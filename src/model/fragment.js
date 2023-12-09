@@ -144,6 +144,16 @@ class Fragment {
         return ['text/markdown', 'text/html', 'text/plain'];
       case 'text/html':
         return ['text/html', 'text/plain'];
+      case 'application/json':
+        return ['application/json', 'text/plain'];
+      case 'image/png':
+        return ['image/png', 'image/jpg', 'image/webp', 'image/gif'];
+      case 'image/jpeg':
+        return ['image/png', 'image/jpg', 'image/webp', 'image/gif'];
+      case 'image/webp':
+        return ['image/png', 'image/jpg', 'image/webp', 'image/gif'];
+      case 'image/gif':
+        return ['image/png', 'image/jpg', 'image/webp', 'image/gif'];
     }
     return [];
   }
@@ -154,7 +164,15 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    const supportedTypes = [`text/plain`, `text/markdown`, `text/html`, `application/json`];
+    const supportedTypes = [
+      `text/plain`,
+      `text/markdown`,
+      `text/html`,
+      `application/json`,
+      `image/png`,
+      `image/jpeg`,
+      `image/webp`,
+    ];
 
     return supportedTypes.some((type) => value.startsWith(type));
   }
