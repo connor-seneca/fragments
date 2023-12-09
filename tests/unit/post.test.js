@@ -2,6 +2,8 @@ const request = require('supertest');
 const app = require('../../src/app');
 const hash = require('../../src/hash');
 const markdown = require('markdown-it')();
+const fs = require('fs');
+const path = require('path');
 
 describe('POST /fragments', () => {
   test('authenticated users can post a text/plain fragment', async () => {
@@ -84,6 +86,28 @@ describe('POST /fragments', () => {
     expect(res.body.fragment.created).toBeDefined();
     expect(res.body.fragment.updated).toBeDefined();
     expect(res.body.fragment.type).toBe('application/json');
+    expect(res.headers['location']).toBe(
+      `http://localhost:8080/v1/fragments/${res.body.fragment.id}`
+    );
+  });
+
+  test('authenticated users can post an image fragment', async () => {
+    const imagePath = path.join(__dirname, '../../test_image.jpg');
+    const imageData = fs.readFileSync(imagePath);
+    const res = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'image/jpeg')
+      .send(imageData);
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.fragment.ownerId).toEqual(hash('user1@email.com'));
+    expect(res.body.fragment.size).toEqual(imageData.length);
+    expect(res.body.fragment.id).toBeDefined();
+    expect(res.body.fragment.created).toBeDefined();
+    expect(res.body.fragment.updated).toBeDefined();
+    expect(res.body.fragment.type).toBe('image/jpeg');
     expect(res.headers['location']).toBe(
       `http://localhost:8080/v1/fragments/${res.body.fragment.id}`
     );

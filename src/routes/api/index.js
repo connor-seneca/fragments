@@ -34,6 +34,9 @@ const rawBody = () =>
       return Fragment.isSupportedType(type);
     },
   });
+
 router.post('/fragments', rawBody(), require('./post'));
+
+router.put('/fragments/:id', rawBody(), require('./updateById'));
 
 module.exports = router;
