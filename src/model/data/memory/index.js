@@ -19,7 +19,7 @@ function readFragment(ownerId, id) {
 
 // Write a fragment's data buffer to memory db. Returns a Promise
 function writeFragmentData(ownerId, id, buffer) {
-  logger.info(ownerId, id, buffer);
+  logger.info('inside write fragment data method');
   return data.put(ownerId, id, buffer);
 }
 

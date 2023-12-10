@@ -63,7 +63,7 @@ class Fragment {
   static async byId(ownerId, id) {
     const fragment = await readFragment(ownerId, id);
     const newFragment = new Fragment(fragment);
-    logger.debug(`inside byId class method. ${JSON.stringify(fragment, null, 2)}`);
+    logger.debug(`inside byId class method.`);
     if (newFragment) {
       return newFragment;
     } else {
@@ -175,6 +175,29 @@ class Fragment {
     ];
 
     return supportedTypes.some((type) => value.startsWith(type));
+  }
+
+  //returns the .ext based on the fragment type
+  get extension() {
+    switch (this.type.split(';')[0].trim()) {
+      case 'text/plain':
+        return 'txt';
+      case 'text/markdown':
+        return 'md';
+      case 'text/html':
+        return 'html';
+      case 'application/json':
+        return 'json';
+      case 'image/png':
+        return 'png';
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/webp':
+        return 'webp';
+      case 'image/gif':
+        return 'gif';
+    }
+    return null;
   }
 }
 
