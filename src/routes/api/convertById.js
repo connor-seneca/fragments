@@ -18,6 +18,7 @@ module.exports = async (req, res) => {
     const data = await fragment.getData();
 
     if (fragment.extension == ext) {
+      res.setHeader('Content-Type', fragment.type);
       res.status(200).send(data);
       return;
     }
@@ -44,7 +45,10 @@ module.exports = async (req, res) => {
 
     if (fragment.type.includes('text/html')) {
       if (ext == 'txt') {
-        const plainText = data.toString().replace(/<[^>]*>/g, '');
+        const plainText = data
+          .toString()
+          .replace(/<[^>]*>/g, '')
+          .trim();
 
         res.setHeader('Content-Type', 'text/plain');
         res.setHeader('Content-Length', String(plainText.length));
@@ -56,7 +60,8 @@ module.exports = async (req, res) => {
 
     if (fragment.type.includes('application/json')) {
       if (ext == 'txt') {
-        const plainText = JSON.stringify(data);
+        const buffer = Buffer.from(data);
+        const plainText = buffer.toString('utf-8');
 
         res.setHeader('Content-Type', 'text/plain');
         res.setHeader('Content-Length', String(plainText.length));

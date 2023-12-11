@@ -172,6 +172,7 @@ class Fragment {
       `image/png`,
       `image/jpeg`,
       `image/webp`,
+      `image/gif`,
     ];
 
     return supportedTypes.some((type) => value.startsWith(type));

@@ -168,6 +168,29 @@ describe('Fragment class', () => {
       });
       expect(fragment.formats).toEqual(['text/plain']);
     });
+
+    test('extension returns the expected result for plain text', () => {
+      const fragment = new Fragment({
+        ownerId: '1234',
+        type: 'text/plain; charset=utf-8',
+        size: 0,
+      });
+      expect(fragment.extension).toEqual('txt');
+
+      const fragment2 = new Fragment({
+        ownerId: '1234',
+        type: 'image/gif',
+        size: 0,
+      });
+      expect(fragment2.extension).toEqual('gif');
+
+      const fragment3 = new Fragment({
+        ownerId: '1234',
+        type: 'application/json',
+        size: 0,
+      });
+      expect(fragment3.extension).toEqual('json');
+    });
   });
 
   describe('save(), getData(), setData(), byId(), byUser(), delete()', () => {

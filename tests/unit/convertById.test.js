@@ -29,6 +29,49 @@ describe('GET /fragments/:id.ext', () => {
     expect(gRes.text).toBe(html);
   });
 
+  test('authenticated users can convert text/html to plain text', async () => {
+    const pRes = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/html')
+      .send('<p> This is a test </p>');
+
+    const id = pRes.body.fragment.id;
+
+    logger.info(`fragment id: ${id}`);
+
+    const gRes = await request(app)
+      .get(`/v1/fragments/${id}.txt`)
+      .auth('user1@email.com', 'password1');
+
+    expect(gRes.statusCode).toBe(200);
+    expect(gRes.headers['content-type']).toBe('text/plain; charset=utf-8');
+    expect(gRes.text).toBe('This is a test');
+  });
+
+  test('authenticated users can convert application/json to plain text', async () => {
+    const jsonData = { message: 'This is a JSON message.' };
+    const expectedPlainText = '{"message":"This is a JSON message."}';
+
+    const pRes = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'application/json')
+      .send(jsonData);
+
+    const id = pRes.body.fragment.id;
+
+    logger.info(`fragment id: ${id}`);
+
+    const gRes = await request(app)
+      .get(`/v1/fragments/${id}.txt`)
+      .auth('user1@email.com', 'password1');
+
+    expect(gRes.statusCode).toBe(200);
+    expect(gRes.headers['content-type']).toBe('text/plain; charset=utf-8');
+    expect(gRes.text).toBe(expectedPlainText);
+  });
+
   test('authenticated users can convert image to image/jpg', async () => {
     const imagePath = path.join(__dirname, '../../image_png_test.png');
     const imageData = fs.readFileSync(imagePath);
@@ -127,5 +170,30 @@ describe('GET /fragments/:id.ext', () => {
 
     expect(conversion.statusCode).toBe(200);
     expect(conversion.headers['content-type']).toBe('image/png');
+  });
+
+  test('authenticated users can convert image/jpg to image/jpg', async () => {
+    const imagePath = path.join(__dirname, '../../test_image.jpg');
+    const imageData = fs.readFileSync(imagePath);
+    const res = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'image/jpeg')
+      .send(imageData);
+
+    const id = res.body.fragment.id;
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.fragment.size).toEqual(imageData.length);
+    expect(res.body.fragment.type).toBe('image/jpeg');
+    expect(res.headers['location']).toBe(`http://localhost:8080/v1/fragments/${id}`);
+
+    const conversion = await request(app)
+      .get(`/v1/fragments/${id}.jpg`)
+      .auth('user1@email.com', 'password1');
+
+    expect(conversion.statusCode).toBe(200);
+    expect(conversion.headers['content-type']).toBe('image/jpeg');
   });
 });
